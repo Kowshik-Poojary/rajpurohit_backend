@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
@@ -9,11 +11,14 @@ app.use(bodyParser.json());
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",       // your DB username
-  password: "Kowshik@123",       // your DB password
-  database: "Rajpurohit",
+  host: 'localhost',         // or '127.0.0.1'
+  user: 'root',              // your MySQL username
+  password: 'Kowshik@123',              // your MySQL password (if any)
+  database: 'Rajpurohit', // replace with your DB name
+  port: 3306                 // default MySQL port
 });
+
+
 
 db.connect(err => {
   if (err) {
