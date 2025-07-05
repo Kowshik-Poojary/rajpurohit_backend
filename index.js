@@ -9,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+
 // MySQL connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -62,6 +63,7 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         res.send("Login successful");
       } else {
+        console.log()
         res.status(401).send("Invalid username or password");
       }
     }
@@ -281,6 +283,15 @@ app.put('/update-volweight/:id', async (req, res) => {
   }
 });
 
+app.get('/check-db', (req, res) => {
+  db.query('SELECT 1 + 1 AS result', (err, result) => {
+    if (err) {
+      console.error("❌ DB Connection FAILED:", err);
+      return res.status(500).json({ connected: false, error: err.message });
+    }
+    res.status(200).json({ connected: true, result: result[0] });
+  });
+});
 
 
 
