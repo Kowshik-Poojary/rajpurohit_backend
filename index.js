@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const express = require("express");
-const mysql = require("mysql");
+const db = require("./db"); // Now using the pool
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
