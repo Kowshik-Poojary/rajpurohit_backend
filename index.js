@@ -1,4 +1,4 @@
-
+require('dotenv').config();
 
 const express = require("express");
 const mysql = require("mysql");
@@ -11,11 +11,11 @@ app.use(bodyParser.json());
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: 'localhost',         // or '127.0.0.1'
-  user: 'root',              // your MySQL username
-  password: 'Kowshik@123',              // your MySQL password (if any)
-  database: 'Rajpurohit', // replace with your DB name
-  port: 3306                 // default MySQL port
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 
