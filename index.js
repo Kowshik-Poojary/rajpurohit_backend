@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const mongoose = require("mongoose");
 const express = require("express"); // Now using the pool
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -15,6 +15,14 @@ const Pod = require("./models/Pod");
 const Address = require("./models/Address");
 const Location = require("./models/Location");
 const Sender = require("./models/Sender");
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed:", err.message);
+  });
 
 
 // ✅ Test route to verify server
