@@ -60,10 +60,15 @@ app.post("/login", async (req, res) => {
 
 app.post("/submitpod", async (req, res) => {
   try {
-    const pod = new Pod(req.body);
+    const pod = new Pod({
+      ...req.body,
+      date1: new Date() // ✅ FORCE date
+    });
+
     const saved = await pod.save();
-    res.json(saved);
+    res.status(200).json(saved);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Insert failed" });
   }
 });
