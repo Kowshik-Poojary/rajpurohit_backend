@@ -23,12 +23,16 @@ podSchema.pre("save", async function () {
 
   const counter = await Counter.findByIdAndUpdate(
     { _id: "podNumber" },
-    { $inc: { seq: 1 } },
+    {
+      $inc: { seq: 1 },
+      $setOnInsert: { seq: 999 } 
+    },
     { new: true, upsert: true }
   );
 
   this.podNumber = counter.seq;
 });
+
 
 
 module.exports = mongoose.model("Pod", podSchema);
