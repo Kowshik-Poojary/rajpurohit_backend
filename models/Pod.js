@@ -21,14 +21,16 @@ const podSchema = new mongoose.Schema({
 podSchema.pre("save", async function () {
   if (this.podNumber) return;
 
-  const counter = await Counter.findByIdAndUpdate(
-    { _id: "podNumber" },
-    {
-      $inc: { seq: 1 },
-      $setOnInsert: { seq: 999 } 
-    },
-    { new: true, upsert: true }
-  );
+  let counter = await Counter.findById("podNumber");
+
+  if (!counter) {
+    // First time ever → start from 1000
+    counter = await Counter.create({ _id: "podNumber", seq: 1000 });
+  } else {
+    // Increment normally
+    counter.seq += 1;
+    await counter.save();
+  }
 
   this.podNumber = counter.seq;
 });
