@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Counter = require("./Counter");
 
 const podSchema = new mongoose.Schema({
-  podNumber: { type: Number, unique: true }, // 🔥 AUTO INCREMENT POD NO
+  // ===== UPDATED: Changed to String to store "R12345" format =====
+  podNumber: { type: String, unique: true }, // AUTO INCREMENT POD NO with R prefix
 
   from1: String,
   to1: String,
@@ -32,9 +33,9 @@ podSchema.pre("save", async function () {
     await counter.save();
   }
 
-  this.podNumber = counter.seq;
+  // ===== UPDATED: Store with R prefix =====
+  // Convert integer to string with R prefix: 1000 → "R1000"
+  this.podNumber = `R${counter.seq}`;
 });
-
-
 
 module.exports = mongoose.model("Pod", podSchema);
