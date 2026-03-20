@@ -10,10 +10,44 @@ const podSchema = new mongoose.Schema({
   origin: String,
   destination: String,
   doc: String,
-  weight: Number,
-  vol_weight: Number,
+  // ===== UPDATED: Changed to support decimal values (max 2 decimals) =====
+  weight: {
+    type: Number,
+    validate: {
+      validator: function(v) {
+        if (v === null || v === undefined) return true;
+        // Check if value has more than 2 decimal places
+        const decimalPlaces = (v.toString().split('.')[1] || '').length;
+        return decimalPlaces <= 2;
+      },
+      message: 'Weight can have maximum 2 decimal places'
+    }
+  },
+  vol_weight: {
+    type: Number,
+    validate: {
+      validator: function(v) {
+        if (v === null || v === undefined) return true;
+        // Check if value has more than 2 decimal places
+        const decimalPlaces = (v.toString().split('.')[1] || '').length;
+        return decimalPlaces <= 2;
+      },
+      message: 'Volumetric weight can have maximum 2 decimal places'
+    }
+  },
   pieces: Number,
-  amount: Number,
+  amount: {
+    type: Number,
+    validate: {
+      validator: function(v) {
+        if (v === null || v === undefined) return true;
+        // Check if value has more than 2 decimal places
+        const decimalPlaces = (v.toString().split('.')[1] || '').length;
+        return decimalPlaces <= 2;
+      },
+      message: 'Amount can have maximum 2 decimal places'
+    }
+  },
   status1: String,
   sender: String,
   date1: { type: Date, default: Date.now }
